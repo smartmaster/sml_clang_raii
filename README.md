@@ -79,7 +79,5 @@ int _tmain(int argc, TCHAR** argv)
 ```
 
 Status:
-- tested windows x64 release and debug build
-
-Todo:
-- windows x86 support
+- tested windows x64 64bit release and debug build
+- tested windows x86 32bit release and debug build

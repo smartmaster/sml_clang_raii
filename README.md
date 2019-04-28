@@ -1,7 +1,7 @@
 # sml_clang_raii
 RAII for C language in pure C and ASM
 
-featurs:
+Features:
 - easy and graceful to use
 - no need seperate free cleanup functions
 - able to cleanup any resources or call any function on scope exits
@@ -12,7 +12,8 @@ User guide:
 - include sml_raii_clang.h in .c file
 - annote resource and its cleanup functions
 
-example:
+
+Sample:
 
 ```c
 void sml_raii_clang_test()
@@ -50,7 +51,7 @@ void sml_raii_clang_test()
 }
 ```
 
-for more details, please debug the main function
+For more details, please debug the main function
 
 ```c
 int _tmain(int argc, TCHAR** argv)
@@ -79,5 +80,5 @@ int _tmain(int argc, TCHAR** argv)
 ```
 
 Status:
-- tested windows x64 64bit release and debug build
-- tested windows x86 32bit release and debug build
+- Tested windows x64 64bit release and debug build
+- Tested windows x86 32bit release and debug build

@@ -1,32 +1,32 @@
 
 #include "../src/sml_raii_clang.h"
 #include "log.h"
+
 void sml_raii_clang_test_nomacro()
 {
-	static SmlCVector volatile _0_sml_raii_vec_blocks;
-	static SmlCVector volatile _0_sml_raii_vec_jmp;
-	static long volatile _0_sml_raii_initing = 0;
-	static long volatile _0_sml_raii_call_getaddr_size = 0;
-	static long volatile _0_sml_raii_call_jmptag_size = 0;
-	static long volatile _0_sml_raii_const_false = 0;
-	static long volatile _0_sml_raii_reserved1 = 0xbbbb'bbbb;
-	static long volatile _0_sml_raii_reserved2 = 0xcccc'cccc;
-	static long volatile _0_sml_raii_prepared = 0;
-	long volatile _0_sml_raii_initing_local = (_InterlockedCompareExchange(&_0_sml_raii_initing, 1, 0) == 0);
-_0_sml_raii_block_start_label:
-	if (_0_sml_raii_initing_local)
+	static SmlCVector volatile _sml_raii_clang_test_sml_raii_vec_blocks;
+	static SmlCVector volatile _sml_raii_clang_test_sml_raii_vec_jmp;
+	static long volatile _sml_raii_clang_test_sml_raii_initing = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_call_getaddr_size = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_call_jmptag_size = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_const_false = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_reserved1 = 0xbbbb'bbbb;
+	static long volatile _sml_raii_clang_test_sml_raii_reserved2 = 0xcccc'cccc;
+	static long volatile _sml_raii_clang_test_sml_raii_prepared = 0;
+	long volatile _sml_raii_clang_test_sml_raii_initing_local = (_InterlockedCompareExchange(&_sml_raii_clang_test_sml_raii_initing, 1, 0) == 0);
+_sml_raii_clang_test_sml_raii_block_start_label:
+	if (_sml_raii_clang_test_sml_raii_initing_local)
 	{
-		SmlCVector_Ctor(&_0_sml_raii_vec_blocks);
-		SmlCVector_Ctor(&_0_sml_raii_vec_jmp);
-	}
-	;
+		SmlCVector_Ctor(&_sml_raii_clang_test_sml_raii_vec_blocks);
+		SmlCVector_Ctor(&_sml_raii_clang_test_sml_raii_vec_jmp);
+	};
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile p1 = calloc(128, sizeof(WCHAR));
 	wcscpy_s(p1, 128, L"1111111111111111111");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", p1);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_1000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_p1:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -38,19 +38,19 @@ _0_sml_raii_lable_1000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_1000;
+		goto _sml_raii_clang_test_sml_raii_lable_p1;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile p2 = calloc(128, sizeof(WCHAR));
 	wcscpy_s(p2, 128, L"222222222222222222222222222");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", p2);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_2000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_p2:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -62,19 +62,19 @@ _0_sml_raii_lable_2000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_2000;
+		goto _sml_raii_clang_test_sml_raii_lable_p2;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile p3 = calloc(128, sizeof(WCHAR));
 	wcscpy_s(p3, 128, L"33333333333333333333333");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", p3);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_3000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_p3:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -86,19 +86,19 @@ _0_sml_raii_lable_3000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_3000;
+		goto _sml_raii_clang_test_sml_raii_lable_p3;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile p4 = calloc(128, sizeof(WCHAR));
 	wcscpy_s(p4, 128, L"44444444444444444444");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", p4);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_4000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_p4:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -110,18 +110,18 @@ _0_sml_raii_lable_4000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_4000;
+		goto _sml_raii_clang_test_sml_raii_lable_p4;
 	}
 	;
 	WCHAR* volatile p5 = calloc(128, sizeof(WCHAR));
 	wcscpy_s(p5, 128, L"555555555555555");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", p5);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_5000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_p5:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -133,19 +133,19 @@ _0_sml_raii_lable_5000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_5000;
+		goto _sml_raii_clang_test_sml_raii_lable_p5;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res1000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res1000, 128, L"555555555555555");
+	wcscpy_s(res1000, 128, L"res1000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res1000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_6000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res1000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -157,19 +157,19 @@ _0_sml_raii_lable_6000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_6000;
+		goto _sml_raii_clang_test_sml_raii_lable_res1000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res2000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res2000, 128, L"555555555555555");
+	wcscpy_s(res2000, 128, L"res2000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res2000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_7000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res2000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -181,19 +181,19 @@ _0_sml_raii_lable_7000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_7000;
+		goto _sml_raii_clang_test_sml_raii_lable_res2000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res3000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res3000, 128, L"555555555555555");
+	wcscpy_s(res3000, 128, L"res3000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res3000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_8000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res3000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -205,19 +205,19 @@ _0_sml_raii_lable_8000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_8000;
+		goto _sml_raii_clang_test_sml_raii_lable_res3000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res4000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res4000, 128, L"555555555555555");
+	wcscpy_s(res4000, 128, L"res4000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res4000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_9000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res4000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -229,19 +229,19 @@ _0_sml_raii_lable_9000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_9000;
+		goto _sml_raii_clang_test_sml_raii_lable_res4000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res5000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res5000, 128, L"555555555555555");
+	wcscpy_s(res5000, 128, L"res5000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res5000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_A000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res5000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -253,19 +253,19 @@ _0_sml_raii_lable_A000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_A000;
+		goto _sml_raii_clang_test_sml_raii_lable_res5000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res6000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res6000, 128, L"555555555555555");
+	wcscpy_s(res6000, 128, L"res6000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res6000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_B000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res6000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -277,19 +277,19 @@ _0_sml_raii_lable_B000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_B000;
+		goto _sml_raii_clang_test_sml_raii_lable_res6000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res7000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res7000, 128, L"555555555555555");
+	wcscpy_s(res7000, 128, L"res7000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res7000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_C000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res7000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -301,19 +301,19 @@ _0_sml_raii_lable_C000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_C000;
+		goto _sml_raii_clang_test_sml_raii_lable_res7000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res8000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res8000, 128, L"555555555555555");
+	wcscpy_s(res8000, 128, L"res8000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res8000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_D000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res8000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -325,19 +325,19 @@ _0_sml_raii_lable_D000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_D000;
+		goto _sml_raii_clang_test_sml_raii_lable_res8000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile res9000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(res9000, 128, L"555555555555555");
+	wcscpy_s(res9000, 128, L"res9000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", res9000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_E000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_res9000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -349,19 +349,19 @@ _0_sml_raii_lable_E000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_E000;
+		goto _sml_raii_clang_test_sml_raii_lable_res9000;
 	}
 	;
 	//////////////////////////////////////////////////////////////////////////
 	WCHAR* volatile resa000 = calloc(128, sizeof(WCHAR));
-	wcscpy_s(resa000, 128, L"555555555555555");
+	wcscpy_s(resa000, 128, L"resa000");
 	fwprintf_s((__acrt_iob_func(1)), L"Allocated resource [%s]" L"\r\n", resa000);
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-_0_sml_raii_lable_resa000:
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+_sml_raii_clang_test_sml_raii_lable_resa000:
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		Sml_JmpTag('ssss', 'mmmm', 'llll', 'bbbb');
 		;
@@ -373,103 +373,103 @@ _0_sml_raii_lable_resa000:
 		}
 		Sml_JmpTag('SSSS', 'MMMM', 'LLLL', 'EEEE');
 	}
-	Sml_AsmGetRetAddr(&_0_sml_raii_vec_blocks, _0_sml_raii_initing_local, _0_sml_raii_reserved1, _0_sml_raii_reserved2);
-	if (_0_sml_raii_const_false)
+	Sml_AsmGetRetAddr(&_sml_raii_clang_test_sml_raii_vec_blocks, _sml_raii_clang_test_sml_raii_initing_local, _sml_raii_clang_test_sml_raii_reserved1, _sml_raii_clang_test_sml_raii_reserved2);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_resa000;
+		goto _sml_raii_clang_test_sml_raii_lable_resa000;
 	}
 	;
-	if (0 == _0_sml_raii_initing_local)
+	if (0 == _sml_raii_clang_test_sml_raii_initing_local)
 	{
-		while (0 == _0_sml_raii_prepared)
+		while (0 == _sml_raii_clang_test_sml_raii_prepared)
 		{
 			Sleep(0);
 		}
 	}
-	if (_0_sml_raii_initing_local)
+	if (_sml_raii_clang_test_sml_raii_initing_local)
 	{
-		Sml_FindJmps(&_0_sml_raii_vec_blocks, &_0_sml_raii_vec_jmp);
+		Sml_FindJmps(&_sml_raii_clang_test_sml_raii_vec_blocks, &_sml_raii_clang_test_sml_raii_vec_jmp);
 	}
-	Sml_AsmLinkAndRunCleanups(_0_sml_raii_initing_local, &_0_sml_raii_prepared, &_0_sml_raii_vec_jmp);
-	if (_0_sml_raii_const_false)
+	Sml_AsmLinkAndRunCleanups(_sml_raii_clang_test_sml_raii_initing_local, &_sml_raii_clang_test_sml_raii_prepared, &_sml_raii_clang_test_sml_raii_vec_jmp);
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		printf("Sml_JmpTag result is %d" "\r\n", Sml_JmpTag('RRRR', 'aaaa', 'IIII', 'iiii'));
-		goto _0_sml_raii_block_start_label;
+		goto _sml_raii_clang_test_sml_raii_block_start_label;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_1000;
+		goto _sml_raii_clang_test_sml_raii_lable_p1;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_2000;
+		goto _sml_raii_clang_test_sml_raii_lable_p2;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_3000;
+		goto _sml_raii_clang_test_sml_raii_lable_p3;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_4000;
+		goto _sml_raii_clang_test_sml_raii_lable_p4;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_5000;
+		goto _sml_raii_clang_test_sml_raii_lable_p5;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_6000;
+		goto _sml_raii_clang_test_sml_raii_lable_res1000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_7000;
+		goto _sml_raii_clang_test_sml_raii_lable_res2000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_8000;
+		goto _sml_raii_clang_test_sml_raii_lable_res3000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_9000;
+		goto _sml_raii_clang_test_sml_raii_lable_res4000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_A000;
+		goto _sml_raii_clang_test_sml_raii_lable_res5000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_B000;
+		goto _sml_raii_clang_test_sml_raii_lable_res6000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_C000;
+		goto _sml_raii_clang_test_sml_raii_lable_res7000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_D000;
+		goto _sml_raii_clang_test_sml_raii_lable_res8000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_E000;
+		goto _sml_raii_clang_test_sml_raii_lable_res9000;
 	}
 	;
-	if (_0_sml_raii_const_false)
+	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
-		goto _0_sml_raii_lable_resa000;
+		goto _sml_raii_clang_test_sml_raii_lable_resa000;
 	}
 	;
 }

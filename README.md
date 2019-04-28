@@ -55,8 +55,25 @@ for more details, please debug the main function
 ```c
 int _tmain(int argc, TCHAR** argv)
 {
-	sml_raii_clang_test();
-	sml_raii_clang_test_nomacro();
+	int testCase = -1;
+	if (argc > 1)
+	{
+		testCase = wcstol(argv[1], NULL, 10);
+	}
+	
+	switch (testCase)
+	{
+	case 2:
+	{
+		sml_raii_clang_test(); //with macro for users
+	}
+	break;
+	case 1:
+	{
+		sml_raii_clang_test_nomacro(); //without macro for developers
+	}
+	break;
+	}
 	return 0;
 }
 ```

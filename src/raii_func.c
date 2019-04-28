@@ -239,6 +239,14 @@ void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp)
 }
 
 
+void Sml_SetJmpFromTo(BYTE * from, BYTE* to)
+{
+	Sml_Jmp2Target j2t;
+	Sml_Jmp2Target_Init(&j2t, from, to);
+	memcpy(from, &j2t, sizeof(Sml_Jmp2Target));
+}
+
+
 void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, SmlCVector* vec_jmp, LPBYTE * pretddr)
 {
 	int vec_size = SmlCVector_Size(vec_jmp);
@@ -248,21 +256,18 @@ void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, Sml
 	{
 		if (0 == *globalInited)
 		{
-			Sml_Jmp2Target j2t;
 			for (int ii = 0; ii < vec_size - 3;  ii += 2)
 			{
 				BYTE* src = addrs[ii + 1];
 				BYTE* target = addrs[ii + 2];
-				Sml_Jmp2Target_Init(&j2t, src, target + sizeof(Sml_JmpTagPatern)); //+ sizeof(Sml_JmpTagPatern) to skip nops
-				memcpy(src, &j2t, sizeof(Sml_Jmp2Target));
+				Sml_SetJmpFromTo(src, target + sizeof(Sml_JmpTagPatern)); //+ sizeof(Sml_JmpTagPatern) to skip nops
 			}
 
 			if (vec_size > 0)
 			{
 				BYTE* src = addrs[vec_size - 1];
 				BYTE* target = *pretddr;
-				Sml_Jmp2Target_Init(&j2t, src, target); 
-				memcpy(src, &j2t, sizeof(Sml_Jmp2Target));
+				Sml_SetJmpFromTo(src, target);
 			}
 
 			*globalInited = 1;

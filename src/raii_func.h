@@ -72,7 +72,7 @@ typedef struct Sml_Jmp2Target
 } Sml_Jmp2Target, *PSml_Jmp2Target;
 #include <poppack.h>
 void Sml_Jmp2Target_Init(Sml_Jmp2Target* obj, BYTE* src, BYTE* target);
-
+void Sml_SetJmpFromTo(BYTE* from, BYTE* to);
 
 __declspec(noinline)
 void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp);

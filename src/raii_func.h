@@ -80,4 +80,7 @@ void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp);
 __declspec(noinline)
 void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile* globalInited, SmlCVector* vec_jmp, LPBYTE* pretddr);
 
+__declspec(noinline)
+BYTE* Sml_GetRetAddr(SmlCVector* vec_blocks, long initing_local, BYTE** pretaddr);
+
 EXTERN_C_END

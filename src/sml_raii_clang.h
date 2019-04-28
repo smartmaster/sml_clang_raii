@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdio.h>
 #include "raii_func.h"
 
 #ifndef SML_RAII_BLOCK_START
@@ -77,6 +78,7 @@ if (  _ ## name ## _sml_raii_initing_local) \
 Sml_AsmLinkAndRunCleanups(  _ ## name ## _sml_raii_initing_local, &  _ ## name ## _sml_raii_prepared, &  _ ## name ## _sml_raii_vec_jmp);  \
 if ( _ ## name ## _sml_raii_const_false)  \
 {  \
+	printf("Sml_JmpTag result is %d" "\r\n", Sml_JmpTag('RRRR', 'aaaa', 'IIII', 'iiii'));  \
 	goto  _ ## name ## _sml_raii_block_start_label;  \
 }
 

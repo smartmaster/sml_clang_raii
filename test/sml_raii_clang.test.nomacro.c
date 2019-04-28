@@ -393,6 +393,7 @@ _0_sml_raii_lable_resa000:
 	Sml_AsmLinkAndRunCleanups(_0_sml_raii_initing_local, &_0_sml_raii_prepared, &_0_sml_raii_vec_jmp);
 	if (_0_sml_raii_const_false)
 	{
+		printf("Sml_JmpTag result is %d" "\r\n", Sml_JmpTag('RRRR', 'aaaa', 'IIII', 'iiii'));
 		goto _0_sml_raii_block_start_label;
 	}
 	;

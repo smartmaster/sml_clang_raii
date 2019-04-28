@@ -17,6 +17,7 @@ int _tmain(int argc, TCHAR** argv)
 	
 	switch (testCase)
 	{
+	break;
 	case 2:
 	{
 		sml_raii_clang_test();
@@ -24,7 +25,12 @@ int _tmain(int argc, TCHAR** argv)
 	break;
 	case 1:
 	{
-		sml_raii_clang_test_nomacro();
+		int loopCount = 2;
+		for (int ii = 0; ii < loopCount; ++ii)
+		{
+			sml_raii_clang_test_nomacro();
+		}
+		
 	}
 	break;
 	}

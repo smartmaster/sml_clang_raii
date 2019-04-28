@@ -5,35 +5,22 @@
 STACK_SIZE equ 16*8
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;void	SmlCVector_Push(PSmlCVector obj, INT_PTR data);
-extern SmlCVector_Push :  proc
-
-;SML_DATA_PTR GetRetAddr(PSmlCVector vec, int enabled, int reserved1, int reserved2);
+;BYTE* Sml_GetRetAddr(SmlCVector* vec_blocks, long initing_local, BYTE** pretaddr);
+extern Sml_GetRetAddr :  proc
 
 Sml_AsmGetRetAddr proc public
 
-;rax = retaddr
-mov rax, [rsp]
-
-;if enabled == 0
-;quick return
-cmp edx, 0 
-je __return
 
 ;allocate enough stack space, or the sub proc will overwrite the retaddr
-
 sub rsp, STACK_SIZE
 
-mov rdx, rax
-mov [rsp], rcx
+lea r8, [rsp + STACK_SIZE]
+mov [rsp + 16], r8
 mov [rsp + 8], rdx
-call SmlCVector_Push
+mov [rsp], rcx
+call Sml_GetRetAddr
 
 add rsp, STACK_SIZE
-
-__return:
-;rax = retaddr
-mov rax, [rsp]
 ret
 
 
@@ -51,7 +38,7 @@ sub rsp, STACK_SIZE
 lea r9, [rsp + STACK_SIZE]
 mov [rsp + 24], r9
 mov [rsp + 16], r8
-mov [rsp + 9], rdx
+mov [rsp + 8], rdx
 mov [rsp], rcx
 call Sml_LinkAndRunCleanups
 

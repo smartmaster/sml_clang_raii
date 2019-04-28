@@ -280,3 +280,14 @@ void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, Sml
 	}
 }
 
+
+BYTE* Sml_GetRetAddr(SmlCVector* vec_blocks, long initing_local, BYTE** pretaddr)
+{
+	BYTE* rc = *pretaddr;
+	if (initing_local)
+	{
+		SmlCVector_Push(vec_blocks, rc);
+	}
+	return rc;
+}
+

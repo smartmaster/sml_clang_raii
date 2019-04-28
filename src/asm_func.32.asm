@@ -5,46 +5,60 @@
 .code 
 
 
-;void	SmlCVector_Push(PSmlCVector obj, INT_PTR data);
-extern _SmlCVector_Push :  proc
+STACK_SIZE equ 16*4
 
-;SML_DATA_PTR __stdcall GetRetAddr(PSmlCVector vec, int enabled, int reserved1, int reserved2);
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;BYTE* Sml_GetRetAddr(SmlCVector* vec_blocks, long initing_local, BYTE** pretaddr);
+extern _Sml_GetRetAddr :  proc
+
+;SML_DATA_PTR Sml_AsmGetRetAddr(PSmlCVector vec, int enabled, int reserved1, int reserved2);
 _Sml_AsmGetRetAddr proc public
 
 
-;eax = retaddr
-mov eax, [esp]
+;allocate enough stack space, or the sub proc will overwrite the retaddr
+sub esp, STACK_SIZE
 
-;if enabled == 0
-;quick return
-cmp dword ptr[esp + 8], 0
-je __return
+lea eax, [esp + STACK_SIZE]
+mov [esp + 8], eax
 
-push eax
-mov ecx, [esp + 8]
-push ecx
-call _SmlCVector_Push
+mov eax, [esp + STACK_SIZE + 8]
+mov [esp + 4], eax
 
-add esp, 8
+mov eax, [esp + STACK_SIZE + 4]
+mov [esp], eax
+call _Sml_GetRetAddr
 
-__return:
-ret 16
+add esp, STACK_SIZE
+ret
 
 
 _Sml_AsmGetRetAddr endp
 
 
-; not implmented, just a place holder
-;void RunCleanup(LPVOID addr);
 
-_Sml_AsmRunCleanup proc public
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;//void Sml_AsmPrepareAndRunCleanups(LONG localIniting, LONG volatile* globalInited, SmlCVector* vec_jmp);
+extern _Sml_LinkAndRunCleanups : proc
+_Sml_AsmLinkAndRunCleanups proc public
 
+sub esp, STACK_SIZE
 
-add esp, 8 ;restore stack
-jmp dword ptr [esp - 8]
+lea eax, [esp + STACK_SIZE]
+mov [esp + 12], eax
 
-_Sml_AsmRunCleanup endp
+mov eax, [esp + STACK_SIZE + 12]
+mov [esp + 8], eax
 
+mov eax, [esp + STACK_SIZE + 8]
+mov [esp + 4], eax
 
+mov eax, [esp + STACK_SIZE + 4]
+mov [esp], eax
+call _Sml_LinkAndRunCleanups
+
+add esp, STACK_SIZE
+ret
+
+_Sml_AsmLinkAndRunCleanups endp
 
 end

@@ -11,6 +11,7 @@ const BYTE* sml_memmem(const BYTE* buffer1, int len1, const BYTE* buffer2, int l
 const BYTE* sml_memrmem(const BYTE* buffer1, int len1, const BYTE* buffer2, int len2);
 
 #include <pshpack1.h>
+#ifdef _WIN64
 typedef struct  Sml_JmpTagPatern
 {
 	/*
@@ -23,12 +24,12 @@ typedef struct  Sml_JmpTagPatern
 	BYTE movr9d1;
 	BYTE movr9d2;
 	DWORD tag4;
-	
+
 	BYTE movr8d1;
 	BYTE movr8d2;
 	DWORD tag3;
 
-	
+
 	BYTE movedx1;
 	DWORD tag2;
 
@@ -37,7 +38,34 @@ typedef struct  Sml_JmpTagPatern
 
 	BYTE call;
 	int relativeoffset;
-} Sml_JmpTagPatern, *PSml_JmpTagPatern;
+} Sml_JmpTagPatern, * PSml_JmpTagPatern;
+#else
+typedef struct  Sml_JmpTagPatern
+{
+	/*
+0088C6B4 68 62 62 62 62       push        62626262h
+0088C6B9 68 6C 6C 6C 6C       push        6C6C6C6Ch
+0088C6BE 68 6D 6D 6D 6D       push        6D6D6D6Dh
+0088C6C3 68 73 73 73 73       push        73737373h
+0088C6C8 E8 63 50 FF FF       call        _Sml_JmpTag@16 (0881730h)
+	*/
+	BYTE movr9d1;
+	DWORD tag4;
+
+	BYTE movr8d1;
+	DWORD tag3;
+
+
+	BYTE movedx1;
+	DWORD tag2;
+
+	BYTE movecx1;
+	DWORD tag1;
+
+	BYTE call;
+	int relativeoffset;
+} Sml_JmpTagPatern, * PSml_JmpTagPatern;
+#endif
 #include <poppack.h>
 
 #define  SML_ssss 'ssss'

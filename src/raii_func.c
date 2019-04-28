@@ -35,6 +35,7 @@ const BYTE* sml_memrmem(const BYTE* buffer1, int len1, const BYTE* buffer2, int 
 
 
 void Sml_JmpTagPatern_Init(Sml_JmpTagPatern* obj, int tag1, int tag2, int tag3, int tag4)
+#ifdef _WIN64
 {
 	obj->movr9d1 = 0x41;
 	obj->movr9d2 = 0xB9;
@@ -53,6 +54,26 @@ void Sml_JmpTagPatern_Init(Sml_JmpTagPatern* obj, int tag1, int tag2, int tag3, 
 	obj->call = 0xE8;
 	obj->relativeoffset = 0;
 }
+#else
+{
+	const BYTE PUSH = 0x68;
+	obj->movr9d1 = PUSH;
+	obj->tag4 = tag4;
+
+	obj->movr8d1 = PUSH;
+	obj->tag3 = tag3;
+
+	obj->movedx1 = PUSH;
+	obj->tag2 = tag2;
+
+	obj->movecx1 = PUSH;
+	obj->tag1 = tag1;
+
+	obj->call = 0xE8;
+	obj->relativeoffset = 0;
+}
+#endif
+
 
 void Sml_Jmp2Target_Init(Sml_Jmp2Target* obj, BYTE* src, BYTE* target)
 {
@@ -98,16 +119,17 @@ int Sml_compare(BYTE * *arg1, BYTE * *arg2)
 }
 
 
-BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE* func, Sml_JmpTagPatern * pattern)
+BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE * func, Sml_JmpTagPatern * pattern)
+#ifdef _WIN64
 {
 
-//	/*
-//	00007FF69CC2319A BA 6D 6D 6D 6D       mov         edx,6D6D6D6Dh
-//	00007FF69CC2319F B9 73 73 73 73       mov         ecx,73737373h
-//	00007FF69CC231A4 41 B9 62 62 62 62    mov         r9d,62626262h
-//	00007FF69CC231AA 41 B8 6C 6C 6C 6C    mov         r8d,6C6C6C6Ch
-//	00007FF69CC231B0 E8 FB 30 FF FF       call        Sml_JmpTag (07FF69CC162B0h)
-//	*/
+	//	/*
+	//	00007FF69CC2319A BA 6D 6D 6D 6D       mov         edx,6D6D6D6Dh
+	//	00007FF69CC2319F B9 73 73 73 73       mov         ecx,73737373h
+	//	00007FF69CC231A4 41 B9 62 62 62 62    mov         r9d,62626262h
+	//	00007FF69CC231AA 41 B8 6C 6C 6C 6C    mov         r8d,6C6C6C6Ch
+	//	00007FF69CC231B0 E8 FB 30 FF FF       call        Sml_JmpTag (07FF69CC162B0h)
+	//	*/
 
 	BYTE* arr[4] = { 0 };
 	int arrsize[4] = { 0 };
@@ -118,7 +140,7 @@ BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE* fun
 
 	qsort(arr, _countof(arr), sizeof(BYTE*), Sml_compare);
 
-	BOOL ok = (arr[0] >= buffer);
+	BOOL ok = (arr[0] >= buffer && arr[3] >= buffer);
 
 	if (ok)
 	{
@@ -165,7 +187,7 @@ BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE* fun
 
 
 	}
-	
+
 	if (ok)
 	{
 		for (int ii = 0; ii < _countof(arr) - 1; ++ii)
@@ -177,7 +199,7 @@ BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE* fun
 			}
 		}
 	}
-	
+
 
 	if (ok)
 	{
@@ -185,13 +207,86 @@ BYTE* Sml_FindPlaceholderPattern(int revserse, BYTE * buffer, int len, BYTE* fun
 		ok = (callfunc->call == 0xE8);
 		if (ok)
 		{
-			BYTE * targetfunc = (BYTE*)(&callfunc->call) + 5 + callfunc->relativeoffset;
+			BYTE* targetfunc = (BYTE*)(&callfunc->call) + 5 + callfunc->relativeoffset;
 			ok = (targetfunc == func);
 		}
 	}
 
 	return ok ? arr[0] : NULL;
 }
+#else
+{
+	//////////////////////////32 bit//////////////////////////////////////////////////////
+	/*
+0088C6B4 68 62 62 62 62       push        62626262h
+0088C6B9 68 6C 6C 6C 6C       push        6C6C6C6Ch
+0088C6BE 68 6D 6D 6D 6D       push        6D6D6D6Dh
+0088C6C3 68 73 73 73 73       push        73737373h
+0088C6C8 E8 63 50 FF FF       call        _Sml_JmpTag@16 (0881730h)
+	*/
+
+	BYTE* arr[4] = { 0 };
+	int arrsize[4] = { 0 };
+	arr[0] = revserse ? sml_memrmem(buffer, len, &pattern->movr9d1, 5) : sml_memmem(buffer, len, &pattern->movr9d1, 5);
+	arr[1] = revserse ? sml_memrmem(buffer, len, &pattern->movr8d1, 5) : sml_memmem(buffer, len, &pattern->movr8d1, 5);
+	arr[2] = revserse ? sml_memrmem(buffer, len, &pattern->movedx1, 5) : sml_memmem(buffer, len, &pattern->movedx1, 5);
+	arr[3] = revserse ? sml_memrmem(buffer, len, &pattern->movecx1, 5) : sml_memmem(buffer, len, &pattern->movecx1, 5);
+
+	qsort(arr, _countof(arr), sizeof(BYTE*), Sml_compare);
+
+	BOOL ok = (arr[0] >= buffer && arr[3] >= buffer);
+
+	if (ok)
+	{
+		int totalSize = 0;
+		for (int ii = 0; ii < _countof(arr); ++ii)
+		{
+			arrsize[ii] = 1024 * 1024; //set a very large size
+			switch (arr[ii][0])
+			{
+			case 0x68:
+			{
+				arrsize[ii] = 5;
+			}
+			}
+
+			totalSize += arrsize[ii];
+		}
+
+		if (ok)
+		{
+			ok = (totalSize == FIELD_OFFSET(Sml_JmpTagPatern, call));
+		}
+	}
+
+	if (ok)
+	{
+		for (int ii = 0; ii < _countof(arr) - 1; ++ii)
+		{
+			if (arr[ii] + arrsize[ii] != arr[ii + 1])
+			{
+				ok = FALSE;
+				break;
+			}
+		}
+	}
+
+
+	if (ok)
+	{
+		Sml_JmpTagPatern* callfunc = arr[0];
+		ok = (callfunc->call == 0xE8);
+		if (ok)
+		{
+			BYTE* targetfunc = (BYTE*)(&callfunc->call) + 5 + callfunc->relativeoffset;
+			ok = (targetfunc == func);
+		}
+	}
+
+	return ok ? arr[0] : NULL;
+}
+#endif // _WIN64
+
 
 
 void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp)
@@ -239,7 +334,7 @@ void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp)
 }
 
 
-void Sml_SetJmpFromTo(BYTE * from, BYTE* to)
+void Sml_SetJmpFromTo(BYTE * from, BYTE * to)
 {
 	Sml_Jmp2Target j2t;
 	Sml_Jmp2Target_Init(&j2t, from, to);
@@ -247,7 +342,7 @@ void Sml_SetJmpFromTo(BYTE * from, BYTE* to)
 }
 
 
-void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, SmlCVector* vec_jmp, LPBYTE * pretddr)
+void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile* globalInited, SmlCVector * vec_jmp, LPBYTE * pretddr)
 {
 	int vec_size = SmlCVector_Size(vec_jmp);
 	BYTE** addrs = SmlCVector_Ptr(vec_jmp);
@@ -256,7 +351,7 @@ void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, Sml
 	{
 		if (0 == *globalInited)
 		{
-			for (int ii = 0; ii < vec_size - 3;  ii += 2)
+			for (int ii = 0; ii < vec_size - 3; ii += 2)
 			{
 				BYTE* src = addrs[ii + 1];
 				BYTE* target = addrs[ii + 2];
@@ -281,7 +376,7 @@ void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile * globalInited, Sml
 }
 
 
-BYTE* Sml_GetRetAddr(SmlCVector* vec_blocks, long initing_local, BYTE** pretaddr)
+BYTE* Sml_GetRetAddr(SmlCVector * vec_blocks, long initing_local, BYTE * *pretaddr)
 {
 	BYTE* rc = *pretaddr;
 	if (initing_local)

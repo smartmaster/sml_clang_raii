@@ -2,6 +2,37 @@
 
 .code 
 
+
+;//number starting from 1
+setvar macro number:req, reg:req, stacksize:req
+mov qword ptr [rsp + stacksize - number * sizeof(qword)], reg
+endm
+
+getvar macro reg:req, number:req, stacksize:req
+mov reg, qword ptr [rsp + stacksize - number * sizeof(qword)]
+endm
+
+
+;//number starting from 1
+setparam macro number:req, reg:req, stacksize:req
+mov qword ptr [rsp + stacksize + number * sizeof(qword)], reg
+endm
+
+getparam macro reg:req, number:req, stacksize:req
+mov reg, qword ptr [rsp + stacksize + number * sizeof(qword)]
+endm
+
+
+;//number starting from 1
+setsubparam macro number:req, reg:req
+mov qword ptr [rsp + (number - 1) * sizeof(qword)], reg
+endm
+
+getsubparam macro reg:req, number:req
+mov reg, qword ptr [rsp + (number - 1) * sizeof(qword)]
+endm
+
+
 STACK_SIZE equ 16*8
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -15,9 +46,9 @@ Sml_AsmGetRetAddr proc public
 sub rsp, STACK_SIZE
 
 lea r8, [rsp + STACK_SIZE]
-mov [rsp + 16], r8
-mov [rsp + 8], rdx
-mov [rsp], rcx
+setsubparam 3, r8
+setsubparam 2, rdx
+setsubparam 1, rcx
 call Sml_GetRetAddr
 
 add rsp, STACK_SIZE
@@ -36,10 +67,10 @@ Sml_AsmLinkAndRunCleanups proc public
 sub rsp, STACK_SIZE
 
 lea r9, [rsp + STACK_SIZE]
-mov [rsp + 24], r9
-mov [rsp + 16], r8
-mov [rsp + 8], rdx
-mov [rsp], rcx
+setsubparam 4, r9
+setsubparam 3, r8
+setsubparam 2, rdx
+setsubparam 1, rcx
 call Sml_LinkAndRunCleanups
 
 add rsp, STACK_SIZE

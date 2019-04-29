@@ -5,6 +5,37 @@
 .code 
 
 
+;//number starting from 1
+setvar macro number:req, reg:req, stacksize:req
+mov dword ptr [esp + stacksize - number * sizeof(dword)], reg
+endm
+
+getvar macro reg:req, number:req, stacksize:req
+mov reg, dword ptr [esp + stacksize - number * sizeof(dword)]
+endm
+
+
+;//number starting from 1
+setparam macro number:req, reg:req, stacksize:req
+mov dword ptr [esp + stacksize + number * sizeof(dword)], reg
+endm
+
+getparam macro reg:req, number:req, stacksize:req
+mov reg, dword ptr [esp + stacksize + number * sizeof(dword)]
+endm
+
+
+;//number starting from 1
+setsubparam macro number:req, reg:req
+mov dword ptr [esp + (number - 1) * sizeof(dword)], reg
+endm
+
+getsubparam macro reg:req, number:req
+mov reg, dword ptr [esp + (number - 1) * sizeof(dword)]
+endm
+
+
+
 STACK_SIZE equ 16*4
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -19,13 +50,15 @@ _Sml_AsmGetRetAddr proc public
 sub esp, STACK_SIZE
 
 lea eax, [esp + STACK_SIZE]
-mov [esp + 8], eax
+setsubparam 3, eax
 
-mov eax, [esp + STACK_SIZE + 8]
-mov [esp + 4], eax
 
-mov eax, [esp + STACK_SIZE + 4]
-mov [esp], eax
+getparam eax, 2, STACK_SIZE
+setsubparam 2, eax
+
+
+getparam eax, 1, STACK_SIZE
+setsubparam 1, eax
 call _Sml_GetRetAddr
 
 add esp, STACK_SIZE
@@ -46,16 +79,19 @@ _Sml_AsmLinkAndRunCleanups proc public
 sub esp, STACK_SIZE
 
 lea eax, [esp + STACK_SIZE]
-mov [esp + 12], eax
+setsubparam 4, eax
 
-mov eax, [esp + STACK_SIZE + 12]
-mov [esp + 8], eax
 
-mov eax, [esp + STACK_SIZE + 8]
-mov [esp + 4], eax
+getparam eax, 3, STACK_SIZE
+setsubparam 3, eax
 
-mov eax, [esp + STACK_SIZE + 4]
-mov [esp], eax
+
+getparam eax, 2,  STACK_SIZE
+setsubparam 2, eax
+
+
+getparam eax, 1, STACK_SIZE
+setsubparam 1, eax
 call _Sml_LinkAndRunCleanups
 
 add esp, STACK_SIZE

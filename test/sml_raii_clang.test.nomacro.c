@@ -6,13 +6,11 @@ void sml_raii_clang_test_nomacro()
 {
 	static SmlCVector volatile _sml_raii_clang_test_sml_raii_vec_blocks;
 	static SmlCVector volatile _sml_raii_clang_test_sml_raii_vec_jmp;
-	static long volatile _sml_raii_clang_test_sml_raii_initing = 0;
-	static long volatile _sml_raii_clang_test_sml_raii_call_getaddr_size = 0;
-	static long volatile _sml_raii_clang_test_sml_raii_call_jmptag_size = 0;
 	static long volatile _sml_raii_clang_test_sml_raii_const_false = 0;
-	static long volatile _sml_raii_clang_test_sml_raii_reserved1 = 0xbbbb'bbbb;
-	static long volatile _sml_raii_clang_test_sml_raii_reserved2 = 0xcccc'cccc;
-	static long volatile _sml_raii_clang_test_sml_raii_prepared = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_initing = 0;
+	static long volatile _sml_raii_clang_test_sml_raii_ready = 0;
+	const long _sml_raii_clang_test_sml_raii_reserved1 = 0xbbbb'bbbb;
+	const long _sml_raii_clang_test_sml_raii_reserved2 = 0xcccc'cccc;
 	long volatile _sml_raii_clang_test_sml_raii_initing_local = (_InterlockedCompareExchange(&_sml_raii_clang_test_sml_raii_initing, 1, 0) == 0);
 _sml_raii_clang_test_sml_raii_block_start_label:
 	if (_sml_raii_clang_test_sml_raii_initing_local)
@@ -381,7 +379,7 @@ _sml_raii_clang_test_sml_raii_lable_resa000:
 	;
 	if (0 == _sml_raii_clang_test_sml_raii_initing_local)
 	{
-		while (0 == _sml_raii_clang_test_sml_raii_prepared)
+		while (0 == _sml_raii_clang_test_sml_raii_ready)
 		{
 			Sleep(0);
 		}
@@ -390,7 +388,7 @@ _sml_raii_clang_test_sml_raii_lable_resa000:
 	{
 		Sml_FindJmps(&_sml_raii_clang_test_sml_raii_vec_blocks, &_sml_raii_clang_test_sml_raii_vec_jmp);
 	}
-	Sml_AsmLinkAndRunCleanups(_sml_raii_clang_test_sml_raii_initing_local, &_sml_raii_clang_test_sml_raii_prepared, &_sml_raii_clang_test_sml_raii_vec_jmp);
+	Sml_AsmLinkAndRunCleanups(_sml_raii_clang_test_sml_raii_initing_local, &_sml_raii_clang_test_sml_raii_ready, &_sml_raii_clang_test_sml_raii_vec_jmp);
 	if (_sml_raii_clang_test_sml_raii_const_false)
 	{
 		printf("Sml_JmpTag result is %d" "\r\n", Sml_JmpTag('RRRR', 'aaaa', 'IIII', 'iiii'));

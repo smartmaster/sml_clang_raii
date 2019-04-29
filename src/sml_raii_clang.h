@@ -12,13 +12,11 @@
 #define  SML_RAII_BLOCK_START(name) \
 static SML_RAII_VOLATILE(SmlCVector) _ ## name ## _sml_raii_vec_blocks;  \
 static SML_RAII_VOLATILE(SmlCVector) _ ## name ## _sml_raii_vec_jmp;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_initing = 0;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_call_getaddr_size = 0;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_call_jmptag_size = 0;  \
 static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_const_false = 0;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_reserved1 = 0xbbbb'bbbb;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_reserved2 = 0xcccc'cccc;  \
-static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_prepared = 0;  \
+static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_initing = 0;  \
+static SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_ready = 0;  \
+const long  _ ## name ## _sml_raii_reserved1 = 0xbbbb'bbbb;  \
+const long  _ ## name ## _sml_raii_reserved2 = 0xcccc'cccc;  \
 SML_RAII_VOLATILE(long)  _ ## name ## _sml_raii_initing_local = (InterlockedCompareExchange(& _ ## name ## _sml_raii_initing, 1, 0) == 0);  \
 _ ## name ## _sml_raii_block_start_label: \
 if ( _ ## name ## _sml_raii_initing_local)  \
@@ -66,7 +64,7 @@ SML_RAII_LABEL(name, label)
 #define  SML_RAII_BLOCK_END(name) \
 if (0 ==   _ ## name ## _sml_raii_initing_local) \
 { \
-	while (0 ==   _ ## name ## _sml_raii_prepared) \
+	while (0 ==   _ ## name ## _sml_raii_ready) \
 	{ \
 		Sleep(0); \
 	} \
@@ -75,7 +73,7 @@ if (  _ ## name ## _sml_raii_initing_local) \
 { \
 	Sml_FindJmps(&  _ ## name ## _sml_raii_vec_blocks, &  _ ## name ## _sml_raii_vec_jmp); \
 } \
-Sml_AsmLinkAndRunCleanups(  _ ## name ## _sml_raii_initing_local, &  _ ## name ## _sml_raii_prepared, &  _ ## name ## _sml_raii_vec_jmp);  \
+Sml_AsmLinkAndRunCleanups(  _ ## name ## _sml_raii_initing_local, &  _ ## name ## _sml_raii_ready, &  _ ## name ## _sml_raii_vec_jmp);  \
 if ( _ ## name ## _sml_raii_const_false)  \
 {  \
 	printf("Sml_JmpTag result is %d" "\r\n", Sml_JmpTag('RRRR', 'aaaa', 'IIII', 'iiii'));  \

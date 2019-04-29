@@ -95,6 +95,41 @@ int __stdcall Sml_JmpTag(int tag1, int tag2, int tag3, int tag4)
 	return some_data;
 }
 
+
+#ifdef _WIN64
+void Sml_AddStackPointer_Init(Sml_AddStackPointer* obj, BYTE offset)
+{
+	//do nothing for win64
+	//obj->addesp1 = 0x83;
+	//obj->addesp2 = 0xc4;
+	//obj->offset = offset;
+}
+
+BYTE* Sml_SetAddStackPointer(BYTE* target, BYTE offset)
+{
+	//do nothing for win64
+	//Sml_AddStackPointer asp;
+	//Sml_AddStackPointer_Init(&asp, offset);
+	//CopyMemory(target, &asp, Sml_AddStackPointer_Size);
+	return target + Sml_AddStackPointer_Size;
+}
+#else
+void Sml_AddStackPointer_Init(Sml_AddStackPointer* obj, BYTE offset)
+{
+	obj->addesp1 = 0x83;
+	obj->addesp2 = 0xc4;
+	obj->offset = offset;
+}
+
+BYTE* Sml_SetAddStackPointer(BYTE* target, BYTE offset)
+{
+	Sml_AddStackPointer asp;
+	Sml_AddStackPointer_Init(&asp, offset);
+	CopyMemory(target, &asp, Sml_AddStackPointer_Size);
+	return target + Sml_AddStackPointer_Size;
+}
+#endif // _WIN64
+
 static void Sml_ReadWriteBuffer(const BYTE * buffer, int size)
 {
 	DWORD dw = 0;
@@ -324,8 +359,8 @@ void Sml_FindJmps(PSmlCVector vec_blocks, PSmlCVector vec_jmp)
 
 		assert(jmp1 && jmp2 && jmp1 < jmp2);
 
-		memset(jmp1, 0x90, sizeof(Sml_JmpTagPatern)); //all set nops
-		memset(jmp2, 0x90, sizeof(Sml_JmpTagPatern));
+		memset(jmp1, 0xcc, sizeof(Sml_JmpTagPatern)); //all set 'int 3'
+		memset(jmp2, 0xcc, sizeof(Sml_JmpTagPatern));
 
 
 		SmlCVector_Push(vec_jmp, jmp1);
@@ -347,38 +382,49 @@ void Sml_LinkAndRunCleanups(LONG localIniting, LONG volatile* globalInited, SmlC
 	int vec_size = SmlCVector_Size(vec_jmp);
 	BYTE** addrs = SmlCVector_Ptr(vec_jmp);
 	assert(0 == (vec_size & 1) && addrs);
-	if (0 != localIniting)
+
+	BOOL initing = ((0 != localIniting) && (0 == *globalInited));
+	if (initing)
 	{
-		if (0 == *globalInited)
+		for (int ii = 0; ii < vec_size - 3; ii += 2)
 		{
-			for (int ii = 0; ii < vec_size - 3; ii += 2)
-			{
-				BYTE* src = addrs[ii + 1];
-				BYTE* target = addrs[ii + 2];
-				Sml_SetJmpFromTo(src, target + sizeof(Sml_JmpTagPatern)); //+ sizeof(Sml_JmpTagPatern) to skip nops
-			}
+			BYTE* src = addrs[ii + 1];
+			BYTE* target = addrs[ii + 2];
+			Sml_SetJmpFromTo(src, target + sizeof(Sml_JmpTagPatern)); //+ sizeof(Sml_JmpTagPatern) to skip nops
+		}
 
-			if (vec_size > 0)
-			{
-				BYTE* src = addrs[vec_size - 1];
-				BYTE* target = *pretddr;
-				Sml_SetJmpFromTo(src, target);
-			}
-
-			*globalInited = 1;
+		if (vec_size > 0)
+		{
+			BYTE* src = addrs[vec_size - 1];
+			BYTE* target = *pretddr;
+			Sml_SetJmpFromTo(src, target + Sml_AddStackPointer_Size);
 		}
 	}
 
 	if (vec_size)
 	{
-		*pretddr = addrs[0] + sizeof(Sml_JmpTagPatern);
+		BYTE* target = addrs[0] + sizeof(Sml_JmpTagPatern) - Sml_AddStackPointer_Size;
+		if (initing)
+		{
+			if (Sml_AddStackPointer_Size)
+			{
+				CopyMemory(target, *pretddr, Sml_AddStackPointer_Size);
+				memset(*pretddr, 0xcc, Sml_AddStackPointer_Size); //set 'int 3' in case of any error
+			}
+		}
+		*pretddr = target;
+	}
+
+	if (initing)
+	{
+		*globalInited = 1; //set global inited to true
 	}
 }
 
 
 BYTE* Sml_GetRetAddr(SmlCVector * vec_blocks, long initing_local, BYTE * *pretaddr)
 {
-	BYTE* rc = *pretaddr;
+	BYTE* rc = *pretaddr + Sml_AddStackPointer_Size;
 	if (initing_local)
 	{
 		SmlCVector_Push(vec_blocks, rc);

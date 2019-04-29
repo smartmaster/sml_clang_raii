@@ -82,6 +82,35 @@ typedef struct  Sml_JmpTagPatern
 
 void Sml_JmpTagPatern_Init(Sml_JmpTagPatern* obj, int tag1, int tag2, int tag3, int tag4);
 
+#include <pshpack1.h>
+#ifdef _WIN64
+
+typedef struct Sml_AddStackPointer
+{
+	//0097C638 83 C4 10             add         esp,10h
+	//BYTE addesp1;
+	//BYTE addesp2;
+	//BYTE offset;
+	BYTE notused;
+} Sml_AddStackPointer, * PSml_AddStackPointer;
+
+#define  Sml_AddStackPointer_Size 0
+
+#else
+typedef struct Sml_AddStackPointer 
+{
+	//0097C638 83 C4 10             add         esp,10h
+	BYTE addesp1;
+	BYTE addesp2;
+	BYTE offset;
+} Sml_AddStackPointer, *PSml_AddStackPointer;
+
+#define  Sml_AddStackPointer_Size sizeof(Sml_AddStackPointer) 
+#endif
+#include <poppack.h>
+
+void Sml_AddStackPointer_Init(Sml_AddStackPointer* obj, BYTE offset);
+BYTE* Sml_SetAddStackPointer(BYTE* target, BYTE offset);
 
 #if defined(_WIN64)
 __declspec(noinline)

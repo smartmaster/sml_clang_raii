@@ -70,11 +70,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\asm_func.32.asm">
+    <MASM Include="src\asm_func.32.asm">
       <Filter>src</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\asm_func.64.asm">
+    </MASM>
+    <MASM Include="src\asm_func.64.asm">
       <Filter>src</Filter>
-    </CustomBuild>
+    </MASM>
   </ItemGroup>
 </Project>

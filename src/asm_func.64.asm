@@ -1,4 +1,10 @@
+ifndef x64
 
+.model flat
+.code
+
+
+else
 
 .code 
 
@@ -77,6 +83,9 @@ add rsp, STACK_SIZE
 ret
 
 Sml_AsmLinkAndRunCleanups endp
+
+
+endif
 
 end
 

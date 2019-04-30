@@ -1,7 +1,11 @@
 
 
-.model flat
+ifdef x64
+.code
 
+else
+
+.model flat
 .code 
 
 
@@ -98,5 +102,7 @@ add esp, STACK_SIZE
 ret
 
 _Sml_AsmLinkAndRunCleanups endp
+
+endif
 
 end

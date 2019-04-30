@@ -1,9 +1,7 @@
 
 
-ifdef x64
-.code
+ifdef X86_32
 
-else
 
 .model flat
 .code 

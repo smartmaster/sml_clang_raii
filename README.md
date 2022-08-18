@@ -1,6 +1,8 @@
 #this is for demo asm tricks
 ###
-#for production use, please refer to https://github.com/smartmaster/-MyCommonLibs/tree/master/clang-raii
+#this one has been deprecated 
+#for a newer and better one, please refer to https://github.com/smartmaster/RaiiForPureC
+
 
 # sml_clang_raii
 RAII for C language in pure C and ASM
